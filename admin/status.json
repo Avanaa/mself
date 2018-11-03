@@ -1,0 +1,9 @@
+[
+    "CRIADO",
+    "ENVIADO",
+    "EM_PREPARACAO",
+    "PRONTO",
+    "ENTREGUE",
+    "CONFIRMADO_ENTREGUE",
+    "CANCELADO"
+]
