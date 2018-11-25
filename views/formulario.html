@@ -8,117 +8,137 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/color.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/navbar.css" />
 
     <title>Cardápio</title>
 </head>
 <body class="bg">
 
     <script>window.$ = require('../node_modules/jquery/dist/jquery.js');</script>
+    <div id="wrapper">
+        
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#" onclick="inicio()">Mself</a>
+                </li>
+                <li>
+                    <a href="#" onclick="cardapio()">Cardápio</a>
+                </li>
+                <li>
+                    <a href="#" onclick="novo()">Cadastro de itens</a>
+                </li>
+                <li>
+                    <a href="#">Cadastro de usuários</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
 
-    <nav class="navbar bg-nav">
-        <a class="navbar-brand" href="#" onclick="inicio()">Inicio</a>
-
-        <a class="navbar-brand" href="#" onclick="cardapio()">
-            Itens cadastrados
+        <!-- Page Content -->
+        <a href="#menu-toggle" id="menu-toggle">
+            <img src="img/logo.png"
+            width="100px" height="100px">
         </a>
-    </nav>
-    
-    <main class="container">
-        
-        <section class="row">
 
-            <div class="col-12">
-                
-                <form>
+        <div  id="page-content-wrapper" class="container-fluid">
+            
+            <section class="row">
+
+                <div class="col-12">
                     
-                    <div class="form-group row">
-                        <label for="titulo-item" class="col-sm-2">Titulo</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="titulo-item" placeholder="Titulo" required>
-                        </div>
-                    </div>
-        
-                    <div class="form-group row">
-                        <label for="descricao-item" class="col-sm-2">Descrição</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" id="descricao-item" rows="3" placeholder="Descrição" required></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-6">
-
-                            <div class="form-group row"> 
-                                <label for="valor-item" class="col-sm-4 col-form-label">Valor R$</label>
-                                <div class="col-sm-8">
-                                    <input type="Number" class="form-control" id="valor-item" placeholder="0.00" min="0" value="0" step="0.01" required>
-                                </div>
-                            </div>
-                
-                            <div class="form-group row">
-                                <label for="desconto-item" class="col-sm-4 col-form-label">Desconto %</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="desconto-item" placeholder="0" min="0" value="0" step="1">
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-6">
-                
-                            <div class="form-group row">
-                                <label for="preco-item" class="col-sm-4 col-form-label">Preço R$</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="preco-item" placeholder="0.00" min="0" value="0" step="0.01" readonly>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group row">
-                                <label for="desconto-item-real" class="col-sm-4 col-form-label">Desconto R$</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="desconto-item-real" placeholder="0" min="0" value="0" step="1" readonly>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-6">
-                            <div class="form-group row">
-                                <label for="categoria-item" class="col-sm-4 col-form-label">Categoria do item</label>
-                                <div class="col-sm-8">
-                                    <select required class="form-control" id="categoria-item"></select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
+                    <form>
                         
-                            <div class="form-group row">
-                                <label for="img-item" class="col-sm-4 col-form-label">Imagem</label>
-                                <div class="col-sm-8">
-                                    <input type="file" class="form-control-file" id="img-item" accept=".png, .jpg, .jpeg" onchange="inputImagem()" required>
+                        <div class="form-group row">
+                            <label for="titulo-item" class="col-sm-2">Titulo</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="titulo-item" placeholder="Titulo" required>
+                            </div>
+                        </div>
+            
+                        <div class="form-group row">
+                            <label for="descricao-item" class="col-sm-2">Descrição</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="descricao-item" rows="3" placeholder="Descrição" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-6">
+
+                                <div class="form-group row"> 
+                                    <label for="valor-item" class="col-sm-4 col-form-label">Valor R$</label>
+                                    <div class="col-sm-8">
+                                        <input type="Number" class="form-control" id="valor-item" placeholder="0.00" min="0" value="0" step="0.01" required>
+                                    </div>
                                 </div>
+                    
+                                <div class="form-group row">
+                                    <label for="desconto-item" class="col-sm-4 col-form-label">Desconto %</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="desconto-item" placeholder="0" min="0" value="0" step="1">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-6">
+                    
+                                <div class="form-group row">
+                                    <label for="preco-item" class="col-sm-4 col-form-label">Preço R$</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="preco-item" placeholder="0.00" min="0" value="0" step="0.01" readonly>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label for="desconto-item-real" class="col-sm-4 col-form-label">Desconto R$</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="desconto-item-real" placeholder="0" min="0" value="0" step="1" readonly>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>
-                    </div>
-                    
-                    <div class="">
-                        <a href="#" class="btn bg-nav" value="enviar" onclick="salvar()">Salvar</a>
-                    </div>
-                </form>                
-            </div>
 
-        </section>
-    </main>
-    
+                        <div class="row">
+
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label for="categoria-item" class="col-sm-4 col-form-label">Categoria do item</label>
+                                    <div class="col-sm-8">
+                                        <select required class="form-control" id="categoria-item"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                            
+                                <div class="form-group row">
+                                    <label for="img-item" class="col-sm-4 col-form-label">Imagem</label>
+                                    <div class="col-sm-8">
+                                        <input type="file" class="form-control-file" id="img-item" accept=".png, .jpg, .jpeg" onchange="inputImagem()" required>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                        <div class="">
+                            <a href="#" class="btn bg-nav" value="enviar" onclick="salvar()">Salvar</a>
+                        </div>
+                    </form>                
+                </div>
+
+            </section>
+        </div>
+    </div>
     <script>require('./js/renderer.js')</script>
     <script>require('./js/cardapio.js')</script>
+    <script>require('./js/navbar.js')</script>
 </body>
 
 </html>

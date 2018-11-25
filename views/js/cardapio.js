@@ -74,7 +74,6 @@ function calculaPreco(){
 
     let valor = parseFloat($('#valor-item').val());
     let desconto = parseFloat($('#desconto-item').val());
-
     let descontoReal = (( valor * desconto ) / 100);
     let preco = valor - descontoReal;
 
@@ -88,6 +87,7 @@ inputImagem = function(){
 }
 
 function cria_cartao_item(snapshot){
+
     let img       = $('<img>').addClass('card-img-top').attr('src', snapshot.val().image);
     let titulo    = $('<h3></h3>').addClass('card-title').text(snapshot.val().titulo);
     let descricao = $('<p></p>').addClass('card-text').text(snapshot.val().descricao);

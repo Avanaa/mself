@@ -62,7 +62,7 @@ function proximoStatus(status){
 
 function alteraStatus(snapshot){
     let pedido = snapshot.val();
-    pedido.status = proximoStatus(snapshot.val().status);;
+    pedido.status = proximoStatus(snapshot.val().status);
     firebaseReference.child(snapshot.key).set(pedido);
 }
 
@@ -90,7 +90,7 @@ function cria_cartao_pedido(snapshot){
     
     /** Botão alterar status */
     let btn_status  = $('<button></button>').addClass('btn btn-warning').text(
-        'Alterar status para ' + transformTextCase(proximoStatus(snapshot.val().status))).on('click', function(e){
+        'Mudar para ' + transformTextCase(proximoStatus(snapshot.val().status))).on('click', function(e){
             e.preventDefault();
             alteraStatus(snapshot);
         });
