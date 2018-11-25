@@ -45,3 +45,7 @@ ipcMain.on('abrir-novo', () => {
 ipcMain.on('abrir-cardapio', () => {
     mainWindow.loadFile(path.join(__dirname, cardapio));
 });
+
+ipcMain.on('editar-item', (e, params) =>{
+    //mainWindow.loadFile(path.join(__dirname));
+});

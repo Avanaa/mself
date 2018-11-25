@@ -1,27 +1,28 @@
-let bdRef =  require('../../dao/bd.js');
-const disponivel = require('../../admin/disponivel');
+require('./renderer.js');
 
-bdRef.DatabaseReference.child('/ITEM').on('child_added', function(snapshot) {
+let bdRef =  require('../../dao/bd.js');
+let firebaseReference = bdRef.DatabaseReference.child('/ITEM');    
+
+firebaseReference.on('child_added', function(snapshot) {
     $('#lista').append(cria_cartao_item(snapshot));
 });
 
-bdRef.DatabaseReference.child('/ITEM').on('child_added', function(snapshot) {
+firebaseReference.on('child_added', function(snapshot) {
     $('#' + snapshot.key).replaceWith(cria_cartao_item(snapshot));
 });
 
-bdRef.DatabaseReference.child('/ITEM').on('child_removed', function(snapshot) {
+firebaseReference.on('child_removed', function(snapshot) {
     $('#' + snapshot.key).remove();
 });
 
-bdRef.DatabaseReference.child('/ITEM').on('child_moved', function(){
+firebaseReference.on('child_moved', function(){
     $('#' + snapshot.key).remove();
 });
 
 function pushItem(item){
-    
+
     item.disponivel = 'SIM';
     item.categoria  = item.categoria.toUpperCase();
-
     let image = item.image;
     item.image = null;
 
@@ -87,25 +88,50 @@ inputImagem = function(){
 }
 
 function cria_cartao_item(snapshot){
-
-    console.log(snapshot);
-
     let img       = $('<img>').addClass('card-img-top').attr('src', snapshot.val().image);
     let titulo    = $('<h3></h3>').addClass('card-title').text(snapshot.val().titulo);
     let descricao = $('<p></p>').addClass('card-text').text(snapshot.val().descricao);
     let categoria = $('<p></p>').addClass('card-text').text('Categoria: ' + transformTextCase(snapshot.val().categoria));
     let preco     = $('<p></p>').addClass('card-text text-danger').text('R$ ' + String(snapshot.val().preco));
-    let body      = $('<div></div>').addClass('card-body').append(titulo, descricao, categoria, preco);
+    let texto     = $('<div></div>').addClass('card-body').append(titulo, descricao, categoria, preco);
 
-    let col1      = $('<div></div>').addClass('col-sm').append(img);
-    let col2      = $('<div></div>').addClass('col-sm').append(body);
-    let row1      = $('<div></div>').addClass('row').append(col1, col2);
+    let col_img   = $('<div></div>').addClass('col-sm').append(img);
+    let col_texto = $('<div></div>').addClass('col-sm').append(texto);
+    let body      = $('<div></div>').addClass('row').append(col_img, col_texto);
+    
+    /** Botão editar */
+    let btn_status  = $('<button></button>').addClass('btn btn-warning').text('Editar item').on('click', function(e){
+            e.preventDefault();
+            editar(snapshot);
+        });
 
-    let card      = $('<div></div>').addClass('card').append(row1).attr('id', snapshot.key);
-   
+    /** Botão remover */
+    let btn_cancela = $('<button></button>').addClass('btn btn-danger').text('Remover item').on('click', function(e){
+            e.preventDefault();
+            remover(snapshot);
+    });
+
+    let col1_btn    = $('<div></div>').addClass('col-6 text-center').append(btn_status);
+    let col2_btn    = $('<div></div>').addClass('col-6 text-center').append(btn_cancela);
+    let row_button  = $('<div></div>').addClass('row').append(col1_btn, col2_btn);
+
+    /** Rodapé do cartão */
+    let footer      = $('<div></div>').addClass('card-footer').append(row_button);
+
+    let card      = $('<div></div>').addClass('card shadow p-3 mb-5 bg-white rounded')
+                        .append(body, footer).attr('id', snapshot.key);
+
     return card;
 }
 
 function transformTextCase(texto){
     return (texto) ? texto.substring(0,1).toUpperCase().concat(texto.substring(1,texto.length).toLowerCase()) : "";
+}
+
+function editar(snapshot){
+    editarItem(snapshot);
+}
+
+function remover(snapshot){
+    firebaseReference.child(snapshot.key).remove();
 }

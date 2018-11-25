@@ -1,6 +1,5 @@
 const { ipcRenderer } = require('electron');
 
-    /** RENDERER */
 novo = function(){
     ipcRenderer.send('abrir-novo');
 }
@@ -11,4 +10,8 @@ cardapio = function(){
 
 inicio = function(){
     ipcRenderer.send('inicio');
+}
+
+editarItem = function(item){
+    ipcRenderer.send('editar-item', [item]);
 }
