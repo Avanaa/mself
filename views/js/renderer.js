@@ -1,3 +1,4 @@
+require('./cardapio.js');
 const { ipcRenderer } = require('electron');
 
 novo = function(){
@@ -12,6 +13,13 @@ inicio = function(){
     ipcRenderer.send('inicio');
 }
 
-editarItem = function(item){
-    ipcRenderer.send('editar-item', [item]);
+editarItem = function(snapshot){
+    console.log(snapshot);
+    ipcRenderer.send('editar-item', [snapshot]);
 }
+
+ipcRenderer.on('snapshot-edit', (e, snapshot) => {
+    console.log('snapshot-edit');
+    console.log(snapshot);
+    preencheFormulario(snapshot);
+});

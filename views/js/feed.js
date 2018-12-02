@@ -4,7 +4,7 @@ let firebaseReference = FirebaseReference.DatabaseReference.child('/PEDIDO');
 
 firebaseReference.on('child_added', function(snapshot) {
     if(snapshot.val().status != 'CRIADO'){
-        $('#lista').append(cria_cartao_pedido(snapshot));
+        $('#lista-pedidos').append(cria_cartao_pedido(snapshot));
     }
 });
 

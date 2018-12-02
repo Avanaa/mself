@@ -4,7 +4,7 @@ let bdRef =  require('../../dao/bd.js');
 let firebaseReference = bdRef.DatabaseReference.child('/ITEM');    
 
 firebaseReference.on('child_added', function(snapshot) {
-    $('#lista').append(cria_cartao_item(snapshot));
+    $('#lista-itens').append(cria_cartao_item(snapshot));
 });
 
 firebaseReference.on('child_added', function(snapshot) {
@@ -19,17 +19,15 @@ firebaseReference.on('child_moved', function(){
     $('#' + snapshot.key).remove();
 });
 
-function pushItem(item){
+function pushItem(item, file){
 
     item.disponivel = 'SIM';
     item.categoria  = item.categoria.toUpperCase();
-    let image = item.image;
-    item.image = null;
 
     key = bdRef.DatabaseReference.child('/ITEM').push(item).key;
     
-    if(image){
-        bdRef.StorageReference.upload(image, {destination : '/IMAGES/' + key + '/foto.jpg'})
+    if(file){
+        bdRef.StorageReference.upload(file, {destination : '/IMAGES/' + key + '/foto.jpg'})
             .then(function(snapshot){
                 item.image = snapshot[1].mediaLink;
                 console.log(item);
@@ -60,14 +58,13 @@ salvar = function(){
         categoria : $('#categoria-item').val()
     };
     
-    var inputFile = $("#img-item");
+    let inputFile = $("#img-item");
+    let file;
 
     if(inputFile){
-        let file = inputFile[0].files[0];
-        item.image = file.path;
+        file = inputFile[0].files[0];
     }
-    console.log(item);
-    pushItem(item);
+    pushItem(item, file);
 }
 
 function calculaPreco(){
@@ -83,7 +80,9 @@ function calculaPreco(){
 
 inputImagem = function(){
     var inputFile = $("#img-item")[0].files[0];
-    $('#img-item-label').text(inputFile.name);
+    if(inputFile){
+        $('#img-item-label').text(inputFile.name);
+    }
 }
 
 function cria_cartao_item(snapshot){
@@ -102,7 +101,7 @@ function cria_cartao_item(snapshot){
     /** Botão editar */
     let btn_status  = $('<button></button>').addClass('btn btn-warning').text('Editar item').on('click', function(e){
             e.preventDefault();
-            editar(snapshot);
+            editar(snapshot.val());
         });
 
     /** Botão remover */
@@ -118,8 +117,10 @@ function cria_cartao_item(snapshot){
     /** Rodapé do cartão */
     let footer      = $('<div></div>').addClass('card-footer').append(row_button);
 
-    let card      = $('<div></div>').addClass('card shadow p-3 mb-5 bg-white rounded')
-                        .append(body, footer).attr('id', snapshot.key);
+    let card      = $('<div></div>')
+                        .addClass('card shadow p-3 mb-5 bg-white rounded')
+                        .append(body, footer)
+                        .attr('id', snapshot.key);
 
     return card;
 }
@@ -134,4 +135,13 @@ function editar(snapshot){
 
 function remover(snapshot){
     firebaseReference.child(snapshot.key).remove();
+}
+
+preencheFormulario = function(snapshot){
+    $('#titulo-item').val(snapshot.titulo);
+    $('#descricao-item').val(snapshot.descricao);
+    $('#valor-item').val(parseFloat(snapshot.valor));
+    $('#desconto-item').val(parseFloat(snapshot.desconto));
+    calculaPreco();
+    //$('#img-item-label').text(snapshot.image);
 }

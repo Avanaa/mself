@@ -47,5 +47,15 @@ ipcMain.on('abrir-cardapio', () => {
 });
 
 ipcMain.on('editar-item', (e, params) =>{
-    //mainWindow.loadFile(path.join(__dirname));
+
+    let win = new BrowserWindow({
+        width : 800,
+        height : 600
+    });
+
+    win.loadFile(path.join(__dirname, novo_item));
+
+    win.webContents.on('did-finish-load', () =>{
+        win.webContents.send('snapshot-edit', params[0]);
+    });
 });
