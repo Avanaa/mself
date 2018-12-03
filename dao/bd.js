@@ -9,10 +9,12 @@ admin.initializeApp({
 
 let database = admin.database().ref();
 let storage = admin.storage().bucket();
+let message = admin.messaging();
 
 let FirebaseReference = {
     DatabaseReference : database,
-    StorageReference : storage
+    StorageReference : storage,
+    MessageReference : message
 };
 
 module.exports = FirebaseReference;

@@ -61,13 +61,47 @@ function proximoStatus(status){
 }
 
 function alteraStatus(snapshot){
+
     let pedido = snapshot.val();
     pedido.status = proximoStatus(snapshot.val().status);
     firebaseReference.child(snapshot.key).set(pedido);
+
+    let message = {
+        notification : {
+        title : 'Atualização do pedido',
+        body : 'Seu pedido teve o status atualizado! Toque aqui para mais informações'
+        },
+        token : snapshot.val().usuario
+    };
+    FirebaseReference.MessageReference.send(message)
+        .then((sucess) => {
+            console.log('Notificação enviada');
+        })
+        .catch((err) => {
+            console.log('Erro ao enviar notificação');
+        });
 }
 
 function cancela(snapshot){
-    console.log('cancelar pedido ' + snapshot.key);
+
+    let pedido = snapshot.val();
+    pedido.status = 'CANCELADO';
+    firebaseReference.child(snapshot.key).set(pedido);
+
+    let message = {
+        notification : {
+            title : 'Seu pedido foi cancelado',
+            body : 'Seu pedido foi cancelado, toque aqui para mais informações'
+        },
+        token : snapshot.usuario
+    };
+    FirebaseReference.MessageReference.send(message)
+        .then((sucess) =>{
+            console.log('Notificação enviada!');
+        })
+        .catch((err) =>{
+            console.log('Erro ao enviar notificação');
+        });
 }
 
 function cria_cartao_pedido(snapshot){
