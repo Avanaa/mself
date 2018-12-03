@@ -3,14 +3,18 @@ let FirebaseReference = require('../../dao/bd.js');
 let firebaseReference = FirebaseReference.DatabaseReference.child('/PEDIDO');
 
 firebaseReference.on('child_added', function(snapshot) {
-    if(snapshot.val().status != 'CRIADO'){
+    if(snapshot.val().status != 'CRIADO' && snapshot.val().status != 'CANCELADO' && snapshot.val().status != 'ENTREGUE'){
         $('#lista-pedidos').append(cria_cartao_pedido(snapshot));
+    } else{
+        $('#' + snapshot.key).remove();
     }
 });
 
 firebaseReference.on('child_changed', function(snapshot) {
-    if(snapshot.val().status != 'CRIADO'){
+    if(snapshot.val().status != 'CRIADO' && snapshot.val().status != 'CANCELADO' && snapshot.val().status != 'ENTREGUE'){
         $('#' + snapshot.key).replaceWith(cria_cartao_pedido(snapshot));
+    } else{
+        $('#' + snapshot.key).remove();
     }
 });
 
@@ -93,7 +97,7 @@ function cancela(snapshot){
             title : 'Seu pedido foi cancelado',
             body : 'Seu pedido foi cancelado, toque aqui para mais informações'
         },
-        token : snapshot.usuario
+        token : snapshot.val().usuario
     };
     FirebaseReference.MessageReference.send(message)
         .then((sucess) =>{

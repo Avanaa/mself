@@ -7,7 +7,7 @@ firebaseReference.on('child_added', function(snapshot) {
     $('#lista-itens').append(cria_cartao_item(snapshot));
 });
 
-firebaseReference.on('child_added', function(snapshot) {
+firebaseReference.on('child_changed', function(snapshot) {
     $('#' + snapshot.key).replaceWith(cria_cartao_item(snapshot));
 });
 
